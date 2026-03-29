@@ -29,7 +29,7 @@ int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
         return -1;
 
     //C2 is before C1 return 1
-    if (ptrC2->scores[key] > ptrC1->scores[key])
+    if(ptrC1->scores[key] < ptrC2->scores[key])
         return 1; 
     
     //If the values are equal, return -1 if C1 is before C2, 1 if C2 is before, return 0 if equal
@@ -65,8 +65,8 @@ void merge(Cat** list, int low, int mid, int high, int key){
     int n2 = high - mid;
 
     //Create temp arrays
-    Cat** L = (int*) malloc(n1*sizeof(Cat*));
-    Cat** R = (int*) malloc(n2*sizeof(Cat*));
+    Cat** L = malloc(n1*sizeof(Cat*));
+    Cat** R = malloc(n2*sizeof(Cat*));
 
     //Copy data to temp arrays
     for(i = 0; i < n1; i++)
@@ -79,7 +79,7 @@ void merge(Cat** list, int low, int mid, int high, int key){
     j = 0; 
     k = low;
     while(i < n1 && j < n2){
-        if(L[i] <= R[j]){
+        if(compareTo(L[i], R[j], key) <= 0){
             list[k] = L[i];
             i++;
         } else {
