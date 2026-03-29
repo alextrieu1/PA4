@@ -17,6 +17,7 @@ typedef struct Cat{
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key);
 void mergeSort(Cat** list, int n, int key);
 void mergeSortRec(Cat** list, int low, int high, int key);
+void merge(Cat** list, int low, int mid, int high, int key);
 void createCat(Cat** list, int index);
 
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
@@ -33,6 +34,68 @@ int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
     return strcmp(ptrC1->name, ptrC2->name);
 }
 
+void mergeSort(Cat** list, int n, int key){
+    mergeSortRec(list, 0, n-1, key);
+}
+
+void mergeSortRec(Cat** list, int low, int high, int key){
+    if(low < high){
+        //get the mid point
+        int mid = (low + high)/2;
+
+        //Sort first and second halves
+        mergeSortRec(list, low, mid, key);
+        mergeSortRec(list, mid+1, high, key);
+        merge(list, low, mid, high, key);
+    }
+}
+
+void merge(Cat** list, int low, int mid, int high, int key){
+    int i,j,k;
+    int n1 = mid-low + 1;
+    int n2 = high - mid;
+
+    //Create temp arrays
+    Cat** L = (int*) malloc(n1*sizeof(Cat*));
+    Cat** R = (int*) malloc(n2*sizeof(Cat*));
+
+    //Copy data to temp arrays
+    for(i = 0; i < n1; i++)
+        L[i] = list[low + i];
+    for(j = 0; j < n2; j++)
+        R[j] = list[mid + 1 + j];
+
+    //Merge the temp arrays back into arr
+    i = 0; 
+    j = 0; 
+    k = low;
+    while(i < n1 && j < n2){
+        if(L[i] <= R[j]){
+            list[k] = L[i];
+            i++;
+        } else {
+            list[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    //Copy elements of remaining elements
+    while(i < n1){
+        list[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while(j < n2){
+        list[k] = R[j];
+        j++;
+        k++;
+    }
+
+    free(L);
+    free(R);
+}
 
 void createCat(Cat** list, int index){
     
