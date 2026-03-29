@@ -16,15 +16,30 @@ typedef struct Cat{
 
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key);
 void mergeSort(Cat** list, int n, int key);
-void mergeSortRec(Cat** list, int low, int hight, int key);
+void mergeSortRec(Cat** list, int low, int high, int key);
 void createCat(Cat** list, int index);
+
+int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
+    
+    //C1 is before C2 return -1
+    if(ptrC1->scores[key] > ptrC2->scores[key])
+        return -1;
+
+    //C2 is before C1 return 1
+    if (ptrC2->scores[key] > ptrC1->scores[key])
+        return 1; 
+    
+    //If the values are equal, return -1 if C1 is before C2, 1 if C2 is before, return 0 if equal
+    return strcmp(ptrC1->name, ptrC2->name);
+}
+
 
 void createCat(Cat** list, int index){
     
     //Allocate memory for Cat struct
     list[index] = malloc(sizeof(Cat));
 
-    char name[MAXSIZE];
+    char name[MAXSIZE+1];
     scanf("%s", name);
 
     //Dynamically allocate memory for name
@@ -42,9 +57,8 @@ void createCat(Cat** list, int index){
 
 }
 
-int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
-    
-}
+
+
 
 int main(void){
     int size = 0;
