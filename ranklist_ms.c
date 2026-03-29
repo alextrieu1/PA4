@@ -20,6 +20,7 @@ void mergeSortRec(Cat** list, int low, int high, int key);
 void merge(Cat** list, int low, int mid, int high, int key);
 void insertionSort(Cat** list, int n, int key);
 void createCat(Cat** list, int index);
+void printData(Cat** list, int size, int key);
 
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
     
@@ -43,7 +44,7 @@ void mergeSortRec(Cat** list, int low, int high, int key){
     //Find the size
     int size = high - low + 1;
     
-    if(size <= 30){
+    if(size <= BASECASESIZE){
         //insertion sort
         return;
     }
@@ -113,7 +114,7 @@ void insertionSort(Cat** list, int n, int key){
         //Move elements that are greater than item to one position 
         // ahead of their current position
         for(j = i - 1; j >= 0; j--){
-            if(list[j]->scores[key] > item->scores[key])
+            if(compareto(list[j],item) < 0)
                 list[j+1] = list[j];
             else 
                 break;
@@ -122,6 +123,7 @@ void insertionSort(Cat** list, int n, int key){
     }
 }
 
+//Creates Cat
 void createCat(Cat** list, int index){
     
     //Allocate memory for Cat struct
@@ -136,13 +138,22 @@ void createCat(Cat** list, int index){
 
     //Setting the total to 0 to avoid garbage data
     list[index]->scores[TOTAL] = 0;
+
     for(int i = 0; i < NUMTRAITS; i++){
         int trait;
         scanf("%d", &trait);
         list[index]->scores[i] = trait;
         list[index]->scores[TOTAL] += trait;
     }
+}
 
+//Printing data
+void printData(Cat** list, int size, int key){
+    printf("%s Ranklist\n", TRAITS[key]);
+    for(int i = 0; i < size; i++){
+        printf("%d. %-15s %d\n", &i + 1, list[i]->name, list[i]->scores[key]);
+    }
+    return;
 }
 
 int main(void){
@@ -153,5 +164,17 @@ int main(void){
         createCat(list, i);
     }
 
+    int key;
+    scanf("%d", &key);
+    mergeSort(list, size, key);
+    printData(list, size, key);
+
+    //Freeing data
+    for(int i = 0; i < size; i++){
+        free(list[i]->name);
+        free(i);
+    }
+
+    free(list);
     return 0;
 }
