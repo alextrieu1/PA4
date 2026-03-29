@@ -16,7 +16,7 @@ typedef struct Cat{
 
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key);
 int is_sorted(Cat** list, int size, int key);
-void swap(Cat* a, Cat* b);
+void swap(Cat** a, Cat** b);
 int partition(Cat** list, int low, int high, int key);
 void quickSort(Cat** list, int n, int key);
 void quickSortRec(Cat** list, int low, int high, int key);
@@ -42,15 +42,15 @@ int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
 int is_sorted(Cat** list, int size, int key){
     int i;
     for(i = 0; i < size-1; i++)
-        if(list[i]->scores > list[i]->scores)
+        if(compareTo(list[i], list[i+1],key) > 0)
             return 0;
 
     return 1;
 }
 
 //Swapping values
-void swap(Cat* a, Cat* b){
-    Cat temp = *a;
+void swap(Cat** a, Cat** b){
+    Cat* temp = *a;
     *a = *b;
     *b = temp;
 }
@@ -58,7 +58,7 @@ void swap(Cat* a, Cat* b){
 int partition(Cat** list, int low, int high, int key){
     //Pick a random partition element and swap it into index low
     int i = low + rand()%(high-low+1);
-    swap(list[low],  list[i]);
+    swap(&list[low],  &list[i]);
 
     int lowIndex = low;
     low++;
@@ -66,35 +66,41 @@ int partition(Cat** list, int low, int high, int key){
     while(low <= high){
 
         //Move low pointer until find value too large
-        while(low <= high && compareTo(list[low], list[lowIndex], key) >= 0)
+        while(low <= high && compareTo(list[low], list[lowIndex], key) < 0)
             low++;
         
         //Move high pointer until find a value too small
-        while(high >= low && compareTo(list[high], list[lowIndex], key) >= 0;)
+        while(high >= low && compareTo(list[high], list[lowIndex], key) > 0)
             high--;
         
         //Swap
         if(low < high)
-            swap(list[low], list[high]);
+            swap(&list[low], &list[high]);
     }
 
     //swap pivot element
-    swap(list[lowIndex], list[high]);
+    swap(&list[lowIndex], &list[high]);
 
     //return the partition point
     return high; 
 }
 void quickSort(Cat** list, int n, int key){
-    quickSortRec(list, 0, n+1, key);
+    quickSortRec(list, 0, n-1, key);
 }
 
 void quickSortRec(Cat** list, int low, int high, int key){
 
+    //If size is equal to or less than 30
+    int size = high - low + 1;
+    if (size <= BASECASESIZE){
+        insertionSort(list + low, size, key);
+        return;
+    }
     //Only have to sort if there is more than one number
     if(low < high){
         int split = partition(list, low, high, key);
-        quickSort(list, low, split-1);
-        quickSort(list, split+1, high);
+        quickSortRec(list, low, split-1, key);
+        quickSortRec(list, split+1, high, key);
     }
 }
 
