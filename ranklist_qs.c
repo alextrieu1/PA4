@@ -158,7 +158,7 @@ int main(void){
 
     int key;
     scanf("%d", &key);
-    
+    quickSort(list, size, key);
     printData(list, size, key);
 
     //Freeing data
