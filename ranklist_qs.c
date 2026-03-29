@@ -30,7 +30,7 @@ int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
     if(ptrC1->scores[key] > ptrC2->scores[key])
         return -1;
 
-    //C2 is before C1 return 1
+    //C1 is after C2 return 1
     if(ptrC1->scores[key] < ptrC2->scores[key])
         return 1; 
     
@@ -66,11 +66,11 @@ int partition(Cat** list, int low, int high, int key){
     while(low <= high){
 
         //Move low pointer until find value too large
-        while(low <= high && list[low]->scores[key] <= list[lowIndex]->scores[key])
+        while(low <= high && compareTo(list[low], list[lowIndex], key) >= 0)
             low++;
         
         //Move high pointer until find a value too small
-        while(high >= low && list[high]->scores[key] > list[lowIndex]->scores[key])
+        while(high >= low && compareTo(list[high], list[lowIndex], key) >= 0;)
             high--;
         
         //Swap
