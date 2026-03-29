@@ -18,6 +18,7 @@ int compareTo(Cat* ptrC1, Cat* ptrC2, int key);
 void mergeSort(Cat** list, int n, int key);
 void mergeSortRec(Cat** list, int low, int high, int key);
 void merge(Cat** list, int low, int mid, int high, int key);
+void insertionSort(Cat** list, int n, int key);
 void createCat(Cat** list, int index);
 
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
@@ -39,6 +40,13 @@ void mergeSort(Cat** list, int n, int key){
 }
 
 void mergeSortRec(Cat** list, int low, int high, int key){
+    //Find the size
+    int size = high - low + 1;
+    
+    if(size <= 30){
+        //insertion sort
+        return;
+    }
     if(low < high){
         //get the mid point
         int mid = (low + high)/2;
@@ -97,6 +105,23 @@ void merge(Cat** list, int low, int mid, int high, int key){
     free(R);
 }
 
+void insertionSort(Cat** list, int n, int key){
+    int i, j;
+    for(i = 0; i < n; i++){
+        Cat* item = list[i];
+
+        //Move elements that are greater than item to one position 
+        // ahead of their current position
+        for(j = i - 1; j >= 0; j--){
+            if(list[j]->scores[key] > item->scores[key])
+                list[j+1] = list[j];
+            else 
+                break;
+        }
+        list[j+1] = item;
+    }
+}
+
 void createCat(Cat** list, int index){
     
     //Allocate memory for Cat struct
@@ -120,9 +145,6 @@ void createCat(Cat** list, int index){
 
 }
 
-
-
-
 int main(void){
     int size = 0;
     scanf("%d", &size);
@@ -130,5 +152,6 @@ int main(void){
     for(int i = 0; i < size; i++){
         createCat(list, i);
     }
+
     return 0;
 }
