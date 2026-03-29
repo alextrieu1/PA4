@@ -114,7 +114,7 @@ void insertionSort(Cat** list, int n, int key){
         //Move elements that are greater than item to one position 
         // ahead of their current position
         for(j = i - 1; j >= 0; j--){
-            if(compareto(list[j],item) < 0)
+            if(compareTo(list[j],item, key) < 0)
                 list[j+1] = list[j];
             else 
                 break;
@@ -172,9 +172,8 @@ int main(void){
     //Freeing data
     for(int i = 0; i < size; i++){
         free(list[i]->name);
-        free(i);
+        free(list[i]);
     }
-
     free(list);
     return 0;
 }
