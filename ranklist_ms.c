@@ -45,7 +45,7 @@ void mergeSortRec(Cat** list, int low, int high, int key){
     int size = high - low + 1;
     
     if(size <= BASECASESIZE){
-        //insertion sort
+        insertionSort(list,size,key);
         return;
     }
     if(low < high){
@@ -139,7 +139,7 @@ void createCat(Cat** list, int index){
     //Setting the total to 0 to avoid garbage data
     list[index]->scores[TOTAL] = 0;
 
-    for(int i = 0; i < NUMTRAITS; i++){
+    for(int i = 0; i < NUMTRAITS-1; i++){
         int trait;
         scanf("%d", &trait);
         list[index]->scores[i] = trait;
@@ -151,7 +151,7 @@ void createCat(Cat** list, int index){
 void printData(Cat** list, int size, int key){
     printf("%s Ranklist\n", TRAITS[key]);
     for(int i = 0; i < size; i++){
-        printf("%d. %-15s %d\n", &i + 1, list[i]->name, list[i]->scores[key]);
+        printf("%d. %-15s %d\n", i + 1, list[i]->name, list[i]->scores[key]);
     }
     return;
 }
