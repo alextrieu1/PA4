@@ -26,13 +26,13 @@ void printData(Cat** list, int size, int key);
 
 int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
     
-    //C1 is before C2 return -1
+    //C1 is before C2 return 1
     if(ptrC1->scores[key] > ptrC2->scores[key])
-        return -1;
+        return 1;
 
-    //C1 is after C2 return 1
+    //C1 is after C2 return -1
     if(ptrC1->scores[key] < ptrC2->scores[key])
-        return 1; 
+        return -1; 
     
     //If the values are equal, return -1 if C1 is before C2, 1 if C2 is before, return 0 if equal
     return strcmp(ptrC1->name, ptrC2->name);
