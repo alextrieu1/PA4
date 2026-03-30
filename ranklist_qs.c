@@ -42,7 +42,7 @@ int compareTo(Cat* ptrC1, Cat* ptrC2, int key){
 int is_sorted(Cat** list, int size, int key){
     int i;
     for(i = 0; i < size-1; i++)
-        if(compareTo(list[i], list[i+1],key) > 0)
+        if(compareTo(list[i], list[i+1],key) < 0)
             return 0;
 
     return 1;
@@ -66,11 +66,11 @@ int partition(Cat** list, int low, int high, int key){
     while(low <= high){
 
         //Move low pointer until find value too large
-        while(low <= high && compareTo(list[low], list[lowIndex], key) < 0)
+        while(low <= high && compareTo(list[low], list[lowIndex], key) >= 0)
             low++;
         
         //Move high pointer until find a value too small
-        while(high >= low && compareTo(list[high], list[lowIndex], key) > 0)
+        while(high >= low && compareTo(list[high], list[lowIndex], key) <= 0)
             high--;
         
         //Swap
@@ -84,6 +84,7 @@ int partition(Cat** list, int low, int high, int key){
     //return the partition point
     return high; 
 }
+
 void quickSort(Cat** list, int n, int key){
     quickSortRec(list, 0, n-1, key);
 }
@@ -96,12 +97,11 @@ void quickSortRec(Cat** list, int low, int high, int key){
         insertionSort(list + low, size, key);
         return;
     }
+
     //Only have to sort if there is more than one number
-    if(low < high){
-        int split = partition(list, low, high, key);
-        quickSortRec(list, low, split-1, key);
-        quickSortRec(list, split+1, high, key);
-    }
+    int split = partition(list, low, high, key);
+    quickSortRec(list, low, split-1, key);
+    quickSortRec(list, split+1, high, key);
 }
 
 void insertionSort(Cat** list, int n, int key){

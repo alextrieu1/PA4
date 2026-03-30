@@ -45,9 +45,10 @@ void mergeSortRec(Cat** list, int low, int high, int key){
     int size = high - low + 1;
     
     if(size <= BASECASESIZE){
-        insertionSort(list,size,key);
+        insertionSort(list+low ,size,key);
         return;
     }
+
     if(low < high){
         //get the mid point
         int mid = (low + high)/2;
